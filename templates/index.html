@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plant Health AI</title>
+    <style>
+        :root {
+            --primary-green: #2d6a4f;
+            --accent-green: #52b788;
+            --bg-gradient: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            --white: #ffffff;
+            --text-dark: #1b4332;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            color: var(--text-dark);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 500px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        h1 {
+            margin-top: 0;
+            font-size: 2rem;
+            color: var(--primary-green);
+            letter-spacing: -0.5px;
+        }
+
+        p {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+        }
+
+        /* Styling the file input to look like a button/dropzone */
+        input[type="file"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 2px dashed var(--accent-green);
+            border-radius: 12px;
+            cursor: pointer;
+            box-sizing: border-box;
+            background: rgba(82, 183, 136, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        input[type="file"]:hover {
+            background: rgba(82, 183, 136, 0.1);
+            border-color: var(--primary-green);
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background: var(--primary-green);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.3s;
+            box-shadow: 0 4px 15px rgba(45, 106, 79, 0.3);
+        }
+
+        button:hover {
+            background: #1b4332;
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .result-area {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .prediction-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: var(--accent-green);
+            color: white;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            margin-top: 10px;
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="card">
+        <h1>Plant Health AI</h1>
+        <p>Upload a photo of the leaf to identify diseases.</p>
+
+        <form method="POST" enctype="multipart/form-data">
+            <input type="file" name="file" required>
+            <button type="submit">Analyze Leaf</button>
+        </form>
+
+        {% if prediction %}
+        <div class="result-area">
+            <div style="font-size: 0.9rem; color: #888;">Analysis Result:</div>
+            <div class="prediction-badge">{{ prediction }}</div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+</body>
+</html>
