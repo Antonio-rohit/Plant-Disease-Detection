@@ -64,7 +64,7 @@ def predict_disease(img_path):
     # Format class name nicely
     predicted_class = predicted_class.replace("___", " : ")
 
-    return predicted_class,confidence
+    return predicted_class
 
 
 # -----------------------------
