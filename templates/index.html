@@ -6,144 +6,290 @@
     <title>Plant Health AI</title>
     <style>
         :root {
-            --primary-green: #2d6a4f;
-            --accent-green: #52b788;
-            --bg-gradient: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
-            --white: #ffffff;
-            --text-dark: #1b4332;
+            --bg: #f4f7f2;
+            --panel: #ffffff;
+            --ink: #17211b;
+            --muted: #66736b;
+            --primary: #256d4f;
+            --primary-dark: #174734;
+            --accent: #d9893d;
+            --border: #dce5dd;
+            --danger: #b42318;
+        }
+
+        * {
+            box-sizing: border-box;
         }
 
         body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: var(--bg-gradient);
-            background-attachment: fixed;
             margin: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             min-height: 100vh;
-            color: var(--text-dark);
+            background: var(--bg);
+            color: var(--ink);
+            font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
 
-        .container {
-            width: 90%;
-            max-width: 500px;
-            animation: fadeIn 0.8s ease-out;
+        main {
+            width: min(1100px, calc(100% - 32px));
+            margin: 0 auto;
+            padding: 48px 0;
         }
 
-        .card {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            padding: 40px;
-            border-radius: 24px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+        .shell {
+            display: grid;
+            grid-template-columns: minmax(280px, 0.9fr) minmax(320px, 1.1fr);
+            gap: 28px;
+            align-items: start;
+        }
+
+        .panel {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 28px;
+            box-shadow: 0 16px 40px rgba(23, 33, 27, 0.08);
         }
 
         h1 {
-            margin-top: 0;
-            font-size: 2rem;
-            color: var(--primary-green);
-            letter-spacing: -0.5px;
+            margin: 0 0 12px;
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            line-height: 1;
+            letter-spacing: 0;
+            color: var(--primary-dark);
+        }
+
+        h2 {
+            margin: 0 0 18px;
+            font-size: 1.2rem;
+            letter-spacing: 0;
         }
 
         p {
-            color: #666;
-            margin-bottom: 30px;
-            font-size: 0.95rem;
+            margin: 0 0 24px;
+            color: var(--muted);
+            line-height: 1.55;
         }
 
-        /* Styling the file input to look like a button/dropzone */
-        input[type="file"] {
+        label {
             display: block;
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            border: 2px dashed var(--accent-green);
-            border-radius: 12px;
-            cursor: pointer;
-            box-sizing: border-box;
-            background: rgba(82, 183, 136, 0.05);
-            transition: all 0.3s ease;
+            margin-bottom: 8px;
+            color: var(--primary-dark);
+            font-weight: 700;
         }
 
-        input[type="file"]:hover {
-            background: rgba(82, 183, 136, 0.1);
-            border-color: var(--primary-green);
+        input[type="file"] {
+            width: 100%;
+            min-height: 52px;
+            padding: 12px;
+            border: 2px dashed #9cc9ad;
+            border-radius: 8px;
+            background: #f8fbf7;
+            color: var(--ink);
         }
 
         button {
             width: 100%;
-            padding: 15px;
-            background: var(--primary-green);
-            color: white;
-            border: none;
-            border-radius: 12px;
+            min-height: 48px;
+            margin-top: 18px;
+            border: 0;
+            border-radius: 8px;
+            background: var(--primary);
+            color: #fff;
             font-size: 1rem;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
-            transition: transform 0.2s, background 0.3s;
-            box-shadow: 0 4px 15px rgba(45, 106, 79, 0.3);
         }
 
-        button:hover {
-            background: #1b4332;
-            transform: translateY(-2px);
+        button:hover,
+        button:focus-visible {
+            background: var(--primary-dark);
         }
 
-        button:active {
-            transform: translateY(0);
+        .error {
+            margin-bottom: 18px;
+            padding: 12px 14px;
+            border-left: 4px solid var(--danger);
+            background: #fff4f2;
+            color: var(--danger);
+            border-radius: 6px;
+            font-weight: 600;
         }
 
-        .result-area {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
+        .result-grid {
+            display: grid;
+            gap: 18px;
         }
 
-        .prediction-badge {
-            display: inline-block;
-            padding: 8px 20px;
-            background: var(--accent-green);
-            color: white;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            margin-top: 10px;
-            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        .prediction {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            align-items: center;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .prediction strong {
+            display: block;
+            font-size: 1.35rem;
+            color: var(--primary-dark);
         }
 
-        @keyframes popIn {
-            0% { transform: scale(0.8); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
+        .confidence {
+            min-width: 92px;
+            text-align: center;
+            padding: 10px 12px;
+            border-radius: 8px;
+            background: #fff3e7;
+            color: #7a3f08;
+            font-weight: 800;
+        }
+
+        .bar-list {
+            display: grid;
+            gap: 12px;
+        }
+
+        .bar-row {
+            display: grid;
+            gap: 6px;
+        }
+
+        .bar-meta {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            color: var(--muted);
+            font-size: 0.92rem;
+        }
+
+        .bar-track {
+            height: 10px;
+            overflow: hidden;
+            border-radius: 999px;
+            background: #e7eee8;
+        }
+
+        .bar-fill {
+            height: 100%;
+            border-radius: inherit;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+        }
+
+        .images {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        figure {
+            margin: 0;
+        }
+
+        figure img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: #edf2ee;
+        }
+
+        figcaption {
+            margin-top: 8px;
+            color: var(--muted);
+            font-size: 0.85rem;
+        }
+
+        .empty {
+            min-height: 260px;
+            display: grid;
+            place-items: center;
+            border: 1px dashed var(--border);
+            border-radius: 8px;
+            color: var(--muted);
+            text-align: center;
+            padding: 24px;
+        }
+
+        @media (max-width: 820px) {
+            main {
+                padding: 24px 0;
+            }
+
+            .shell,
+            .images {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
+<main>
+    <div class="shell">
+        <section class="panel">
+            <h1>Plant Health AI</h1>
+            <p>Upload a clear leaf image to classify the most likely crop disease and generate an explanation heatmap.</p>
 
-<div class="container">
-    <div class="card">
-        <h1>Plant Health AI</h1>
-        <p>Upload a photo of the leaf to identify diseases.</p>
+            {% if error %}
+            <div class="error" role="alert">{{ error }}</div>
+            {% endif %}
 
-        <form method="POST" enctype="multipart/form-data">
-            <input type="file" name="file" required>
-            <button type="submit">Analyze Leaf</button>
-        </form>
+            <form method="POST" enctype="multipart/form-data">
+                <label for="file">Leaf image</label>
+                <input id="file" type="file" name="file" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" required>
+                <button type="submit">Analyze Leaf</button>
+            </form>
+        </section>
 
-        {% if prediction %}
-        <div class="result-area">
-            <div style="font-size: 0.9rem; color: #888;">Analysis Result:</div>
-            <div class="prediction-badge">{{ prediction }}</div>
-        </div>
-        {% endif %}
+        <section class="panel">
+            <h2>Diagnosis</h2>
+            {% if prediction %}
+            <div class="result-grid">
+                <div class="prediction">
+                    <div>
+                        <span>Most likely class</span>
+                        <strong>{{ prediction }}</strong>
+                    </div>
+                    <div class="confidence" aria-label="Prediction confidence">{{ confidence }}%</div>
+                </div>
+
+                <div class="bar-list" aria-label="Top prediction probabilities">
+                    {% for item in top_predictions %}
+                    <div class="bar-row">
+                        <div class="bar-meta">
+                            <span>{{ item.label }}</span>
+                            <span>{{ item.confidence }}%</span>
+                        </div>
+                        <div class="bar-track">
+                            <div class="bar-fill" style="width: {{ item.confidence }}%"></div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <div class="images">
+                    <figure>
+                        <img src="{{ img_path }}" alt="Uploaded leaf">
+                        <figcaption>Uploaded image</figcaption>
+                    </figure>
+                    {% if gradcam_path %}
+                    <figure>
+                        <img src="{{ gradcam_path }}" alt="Grad-CAM heatmap">
+                        <figcaption>Grad-CAM explanation</figcaption>
+                    </figure>
+                    {% endif %}
+                </div>
+
+                {% if gradcam_error %}
+                <div class="error" role="alert">{{ gradcam_error }}</div>
+                {% endif %}
+            </div>
+            {% else %}
+            <div class="empty">Results will appear here after analysis.</div>
+            {% endif %}
+        </section>
     </div>
-</div>
-
+</main>
 </body>
 </html>
